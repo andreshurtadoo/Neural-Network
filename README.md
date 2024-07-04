@@ -1,37 +1,108 @@
-# Clasificación de imágenes (perros y gatos)
+# Clasificador de Perros y Gatos
 
-Este código fuente sirve como apoyo para el video de creación de un clasificador de perros y gatos usando Python y Tensorflow, del canal de YouTube [Ringa Tech](https://youtube.com/RingaTech)
+Este proyecto implementa un clasificador de imágenes para distinguir entre perros y gatos usando redes neuronales con TensorFlow y Keras. Se utilizan tres modelos diferentes: un modelo denso, un modelo convolucional simple y un modelo convolucional con dropout.
 
-Este código representa el sitio web, una vez que se crea y entrena el modelo de inteligencia artificial con Python y Tensorflow, el cual es exportado a los archivos "json" y "bin".
-Puede utilizarse en el celular, solo apunta la cámara al perro o gato que quieres clasificar (puede ser una imagen de la computadora, una foto, o uno de verdad), lo hace todo en el explorador utilizando Tensorflow.js.
+## Contenido
+- [Instalación](#instalación)
+- [Uso](#uso)
+- [Estructura del Código](#estructura-del-código)
+- [Entrenamiento de Modelos](#entrenamiento-de-modelos)
+- [Resultados](#resultados)
+- [Contribuciones](#contribuciones)
+- [Licencia](#licencia)
 
-## Cómo utilizarlo
+## Instalación
+Para ejecutar este proyecto, asegúrate de tener instalados los siguientes paquetes:
 
-### Descargar el repositorio
-Descarga el repositorio donde gustes en tu computadora
+- TensorFlow
+- TensorFlow Datasets
+- OpenCV
+- Matplotlib
+- NumPy
 
-### Inicia un servidor en la carpeta
-Este proyecto utiliza un modelo de Tensorflow.js, el cual para cargarse requiere que el acceso sea por medio de http/https.
-Para eso puedes usar cualquier servidor, pero aquí hay una forma de hacerlo:
-- Descarga Python en tu computadora
-- Abre una línea de comandos o terminal
-- Navega hasta la carpeta donde descargaste el repositorio
-- Ejecuta el comando `python -m http.server 8000`
-- Abre un explorador y ve a http://localhost:8000
+Puedes instalar las dependencias utilizando pip:
 
-### Utilizarlo en un celular
-Si quieres abrirlo en tu celular, no se puede solo poner la IP local de tu computadora y el puerto, ya que para usar la cámara se requiere HTTPS. Puedes hacer un túnel de HTTPS siguiendo los siguientes pasos
-- Descarga ngrok en tu computadora, y descomprímelo
-- Abre una línea de comandos o terminal
-- Navega hasta la carpeta donde descargaste ngrok
-- Ejecuta el comando `ngrok http 8000`
-- Es importante tener ambos activos: El servidor de python, y el túnel de ngrok
-- En la línea de comandos aparecerá un enlace HTTPS. Puedes entrar ahí con tu celular, no importa si no estás en la red local.
-- El túnel expira después de 2 horas creo, en dado caso solo reinicias ngrok
-- Abre un explorador en tu celular y ve al enlace HTTPS indicado
+```bash
+pip install tensorflow tensorflow-datasets opencv-python matplotlib numpy
+```
 
-### Uso
-Puedes dar clic en el botón de "Cambiar camara" para utilizar la cámara delantera o trasera del celular. Solo apunta la cámara a un perro o gato, y abajo te aparecerá la predicción. Tampoco es el clasificador del futuro entonces si no clasifica perfecto, oops.
+## Uso
+Para ejecutar el proyecto, sigue estos pasos:
 
-## Problemas
-Si tienes un problema, regístralo aquí o déjame un comentario en el video de Youtube. Asegúrate de primero revisar la consola de desarrollador de tu explorador para ver si puedes identificar el problema.
+1. Clona este repositorio:
+   ```bash
+   git clone https://github.com/tu_usuario/clasificador-perros-gatos.git
+   cd clasificador-perros-gatos
+   ```
+
+2. Ejecuta el script principal:
+   ```bash
+   python clasificador.py
+   ```
+
+## Estructura del Código
+El código se divide en las siguientes secciones:
+
+- **Importar librerías y datos**: Se importa el dataset `cats_vs_dogs` de TensorFlow Datasets y se visualizan algunas imágenes.
+- **Preprocesamiento de Datos**: Se redimensionan las imágenes, se convierten a escala de grises y se normalizan.
+- **Definición de Modelos**: Se definen tres modelos: uno denso, un convolucional simple y otro con dropout.
+- **Compilación y Entrenamiento de Modelos**: Se compilan y entrenan los modelos utilizando diferentes configuraciones.
+
+## Entrenamiento de Modelos
+Se compilan y entrenan tres modelos:
+
+### Modelo Denso:
+```python
+modeloDenso = tf.keras.models.Sequential([
+    tf.keras.layers.Flatten(input_shape=(100, 100, 1)),
+    tf.keras.layers.Dense(150, activation='relu'),
+    tf.keras.layers.Dense(150, activation='relu'),
+    tf.keras.layers.Dense(1, activation='sigmoid')
+])
+```
+
+### Modelo Convolucional:
+```python
+modeloCNN = tf.keras.models.Sequential([
+    tf.keras.layers.Conv2D(32, (3,3), activation='relu', input_shape=(100, 100, 1)),
+    tf.keras.layers.MaxPooling2D(2, 2),
+    tf.keras.layers.Conv2D(64, (3,3), activation='relu'),
+    tf.keras.layers.MaxPooling2D(2, 2),
+    tf.keras.layers.Conv2D(128, (3,3), activation='relu'),
+    tf.keras.layers.MaxPooling2D(2, 2),
+    tf.keras.layers.Flatten(),
+    tf.keras.layers.Dense(100, activation='relu'),
+    tf.keras.layers.Dense(1, activation='sigmoid')
+])
+```
+
+### Modelo Convolucional con Dropout:
+```python
+modeloCNN2 = tf.keras.models.Sequential([
+    tf.keras.layers.Conv2D(32, (3,3), activation='relu', input_shape=(100, 100, 1)),
+    tf.keras.layers.MaxPooling2D(2, 2),
+    tf.keras.layers.Conv2D(64, (3,3), activation='relu'),
+    tf.keras.layers.MaxPooling2D(2, 2),
+    tf.keras.layers.Conv2D(128, (3,3), activation='relu'),
+    tf.keras.layers.MaxPooling2D(2, 2),
+    tf.keras.layers.Dropout(0.5),
+    tf.keras.layers.Flatten(),
+    tf.keras.layers.Dense(250, activation='relu'),
+    tf.keras.layers.Dense(1, activation='sigmoid')
+])
+```
+
+## Resultados
+Los modelos se entrenan y evalúan utilizando TensorBoard para visualizar las métricas de rendimiento. Se utilizan 100 épocas y un batch size de 32, con un 15% de los datos para validación.
+
+## Contribuciones
+¡Las contribuciones son bienvenidas! Si tienes alguna sugerencia o encuentras algún problema, por favor abre un issue o realiza un pull request.
+
+## Estudiantes
+Andres Hurtado
+Daniel Almarza
+Gerardo Estevez
+Jeferson Ayala
+
+## Licencia
+Este proyecto está bajo la Licencia MIT. Consulta el archivo LICENSE para más detalles.
