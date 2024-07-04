@@ -1,5 +1,11 @@
 # Clasificador de Perros y Gatos
 
+Este proyecto fue desarrollado por los siguientes estudiantes:
+- Andres Hurtado
+- Daniel Almarza
+- Gerardo Estevez
+- Jeferson Ayala
+
 Este proyecto implementa un clasificador de imágenes para distinguir entre perros y gatos usando redes neuronales con TensorFlow y Keras. Se utilizan tres modelos diferentes: un modelo denso, un modelo convolucional simple y un modelo convolucional con dropout.
 
 ## Contenido
@@ -97,12 +103,6 @@ Los modelos se entrenan y evalúan utilizando TensorBoard para visualizar las m�
 
 ## Contribuciones
 ¡Las contribuciones son bienvenidas! Si tienes alguna sugerencia o encuentras algún problema, por favor abre un issue o realiza un pull request.
-
-## Estudiantes
-Andres Hurtado
-Daniel Almarza
-Gerardo Estevez
-Jeferson Ayala
 
 ## Licencia
 Este proyecto está bajo la Licencia MIT. Consulta el archivo LICENSE para más detalles.
